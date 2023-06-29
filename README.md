@@ -53,8 +53,6 @@ git clone https://github.com/dubininnik/kittygram_final.git
 
 `DB_PORT` - порт базы данных
 
-`NGINX_PORT` - порт Nginx
-
 `DOCKER_LOGIN` - логин от Docker Hub
 
 ## Запуск проекта
@@ -81,7 +79,7 @@ sudo docker compose -f docker-compose.production.yml exec backend cp -r /app/col
 sudo docker compose -f docker-compose.production.yml exec nginx nginx -s reload
 ```
 
-Измените настройки location в секции server, вместо ХХХХХ укажите тот же порт, что и в .env файле `NGINX_PORT`:
+Измените настройки location Nginx в секции server, вместо ХХХХХ укажите порт 9000:
 ```
 location / {
     proxy_pass http://127.0.0.1:XXXXX;

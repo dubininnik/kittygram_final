@@ -29,7 +29,7 @@ services:
     image: nikdubinin/kittygram_gateway
     env_file: .env
     ports:
-      - ${NGINX_PORT}:80
+      - 9000:80
     volumes:
       - static:/static/
       - media:/media/
