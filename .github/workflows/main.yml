@@ -141,6 +141,8 @@ jobs:
           target: "kittygram"
       - name: Executing remote ssh commands to deploy
         uses: appleboy/ssh-action@master
+        env:
+          NGINX_PORT: 9000
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USER }}
