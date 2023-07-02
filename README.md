@@ -15,21 +15,6 @@
 ## Подготовка к запуску
 
 Установите Docker и Docker-compose на сервер.
-```
-sudo apt update
-```
-```
-sudo apt install curl
-``` 
-```
-curl -fSL https://get.docker.com -o get-docker.sh
-```
-```
-sudo sh ./get-docker.sh
-```
-```
-sudo apt-get install docker-compose-plugin
-```
 
 Клонируйте репозиторий:
 ```
@@ -57,60 +42,28 @@ git clone https://github.com/dubininnik/kittygram_final.git
 
 ## Запуск проекта
 
-Находясь в папке с проектом запустите проект командой:
+Находясь в папке с проектом скачайте образы и запустите проект командами:
+```
+sudo docker compose -f docker-compose.production.yml pull
+```
 ```
 sudo docker compose -f docker-compose.production.yml up -d
 ```
 
-Выполните миграции, соберите статические файлы бэкенда и скопируйте их в /backend_static/static/:
+Выполните миграции, соберите статические файлы бэкенда:
 
 ```
 sudo docker compose -f docker-compose.production.yml exec backend python manage.py migrate
 ```
 ```
+sudo docker compose -f docker-compose.production.yml exec backend mkdir -p backend_static/static/
+```
+```
 sudo docker compose -f docker-compose.production.yml exec backend python manage.py collectstatic
 ```
+
+Создайте суперпользователя:
+
 ```
-sudo docker compose -f docker-compose.production.yml exec backend cp -r /app/collected_static/. /static/
+sudo docker compose -f docker-compose.production.yml exec backend python manage.py createsuperuser
 ```
-
-Настройте Nginx:
-```
-sudo docker compose -f docker-compose.production.yml exec nginx nginx -s reload
-```
-
-Измените настройки location Nginx в секции server, вместо ХХХХХ укажите порт 9000:
-```
-location / {
-    proxy_pass http://127.0.0.1:XXXXX;
-}
-```
-
-Проверьте работоспособность конфигурации Nginx:
-```
-sudo nginx -t
-```
-Перезапустите Nginx:
-```
-sudo service nginx reload
-```
-
-## Настройка CI/CD
-Файл workflow уже написан. Он находится в директории .github/workflows/main.yml
-Для его работоспособности добавьте секреты в GitHub Actions:
-
-`DOCKER_PASSWORD` - пароль от Docker Hub
-
-`DOCKER_USERNAME` - логин от Docker Hub
-
-`HOST` - ip адрес сервера
-
-`USER` - имя пользователя на сервере
-
-`SSH_KEY` - приватный ключ для подключения к серверу
-
-`SSH_PASSPHRASE` - пароль от приватного ключа
-
-`TELEGRAM_TO` - id пользователя в Telegram
-
-`TELEGRAM_TOKEN` - токен бота в Telegram
