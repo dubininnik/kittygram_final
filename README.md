@@ -14,12 +14,8 @@
 
 ## Подготовка к запуску
 
-Установите Docker и Docker-compose на сервер.
+На сервере создайте папку проекта - kittygram и скопируйте в нее файлы docker-compose.production.yml и .env.example:
 
-Клонируйте репозиторий:
-```
-git clone https://github.com/dubininnik/kittygram_final.git
-```
 В папке с проектом переименуйте файл `.env.example` в `.env` и заполните его своими данными:
 
 `POSTGRES_USER` - имя пользователя для базы данных
@@ -43,9 +39,6 @@ git clone https://github.com/dubininnik/kittygram_final.git
 ## Запуск проекта
 
 Находясь в папке с проектом скачайте образы и запустите проект командами:
-```
-sudo docker compose -f docker-compose.production.yml pull
-```
 ```
 sudo docker compose -f docker-compose.production.yml up -d
 ```
